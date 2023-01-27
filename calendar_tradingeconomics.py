@@ -7,14 +7,6 @@ from time import sleep
 import datetime
 import csv
 
-
-def write_to_csv(economic_calendar_dict):
-    with open("Economic_Calendar.csv", 'w') as f:
-        w = csv.DictWriter(f, economic_calendar_dict.keys())
-        w.writeheader()
-        w.writerow(economic_calendar_dict)
-
-
 driver = webdriver.Firefox()
 driver.get("https://tradingeconomics.com/calendar")
 sleep(3)
@@ -76,7 +68,7 @@ for tag in soup.find_all():
                             row[7].text.strip(),  # consensus
                         ]
                     )
-print(rows)
+
 driver.close()
 df = pd.DataFrame(rows, columns=['Time', 'Currency', 'Event', 'Previous', 'Forecast', 'Actual', 'Consensus'])
 df.to_csv('calendar_tradingeconomics.csv', sep='\t', encoding='utf-8')
